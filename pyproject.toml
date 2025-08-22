@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fastingest"
+version = "0.1.0"
+description = "FastIngest: turn a folder into a single LLM-friendly Markdown (summary + tree + file contents)."
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [{ name = "FastIngest Authors" }]
+license = { text = "MIT" }
+dependencies = [
+  "pathspec>=0.12.1",
+]
+
+[project.optional-dependencies]
+tokens = ["tiktoken>=0.7.0"]
+clipboard = ["pyperclip>=1.8.2"]
+
+[project.scripts]
+fi = "fastingest.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["fastingest*"]
