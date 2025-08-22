@@ -122,8 +122,9 @@ def build_markdown(
     Build Markdown; truncate overly large files and stop when total limit reached.
     Returns (markdown, truncated_flag).
 
-    NOTE: No header/summary section at the top (by request).
-    Optionally appends a multi-line footer from FASTINGEST_FOOTER env var.
+    No header section at the top.
+    Appends a multi-line footer from FASTINGEST_FOOTER; if not set or empty,
+    uses the built-in default footer.
     """
     lines: List[str] = []
 
@@ -175,13 +176,20 @@ def build_markdown(
         lines.append(chunk_text)
         total_bytes += add_len
 
-    # Append optional footer from env var (supports \n, \r, \t escapes)
-    footer = _os.environ.get("FASTINGEST_FOOTER", "")
-    if footer:
-        footer = footer.replace("\\r", "\r").replace("\\n", "\n").replace("\\t", "\t")
+    # Footer logic: env or default
+    env_footer = _os.environ.get("FASTINGEST_FOOTER", None)
+    if env_footer is None or env_footer.strip() == "":
+        footer = (
+            "Do not use canvas.\n"
+            "Always provide the full content of all files that need to be changed in the chat.\n"
+            "Use only English characters in code.\n"
+        )
+    else:
+        footer = env_footer.replace("\\r", "\r").replace("\\n", "\n").replace("\\t", "\t")
         if not footer.endswith("\n"):
             footer += "\n"
-        lines.append(footer)
+
+    lines.append(footer)
 
     return "\n".join(lines), truncated
 

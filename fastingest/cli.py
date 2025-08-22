@@ -6,7 +6,7 @@ from .core import run_ingest
 
 def parse_args(argv=None):
     p = argparse.ArgumentParser(
-        prog="fi",
+        prog="fit",
         description="FastIngest: convert a folder into one LLM-friendly Markdown (summary + tree + file contents).",
     )
     p.add_argument("-d", "--dir", default=".", help="Target directory (default: current directory).")
@@ -48,7 +48,7 @@ def main(argv=None):
 
     target = Path(args.dir).resolve()
     if not target.exists() or not target.is_dir():
-        print(f"[fi] Error: directory not found: {target}", file=sys.stderr)
+        print(f"[fit] Error: directory not found: {target}", file=sys.stderr)
         return 2
 
     includes = _normalize_globs(args.include or [])

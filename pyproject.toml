@@ -19,7 +19,7 @@ tokens = ["tiktoken>=0.7.0"]
 clipboard = ["pyperclip>=1.8.2"]
 
 [project.scripts]
-fi = "fastingest.cli:main"
+fit = "fastingest.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
